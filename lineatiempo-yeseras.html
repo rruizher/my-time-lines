@@ -36,30 +36,6 @@
             display: block;
         }
 
-        .legend {
-            max-width: 1400px;
-            margin: 1.5rem auto;
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            padding: 1rem;
-            background: #f8f4ed;
-            border-radius: 8px;
-            flex-wrap: wrap;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .legend-color {
-            width: 30px;
-            height: 20px;
-            border-radius: 4px;
-        }
-
         footer {
             text-align: center;
             margin-top: 2rem;
@@ -67,17 +43,10 @@
             font-size: 0.9rem;
         }
 
+        /* Estilos específicos para etiquetas SVG */
         .bar-label-range {
             font-size: 14px;
             fill: #c94c4c;
-            font-weight: bold;
-            font-family: 'Segoe UI', sans-serif;
-            text-anchor: middle;
-        }
-
-        .bar-label-event {
-            font-size: 13px;
-            fill: #ffffff;
             font-weight: bold;
             font-family: 'Segoe UI', sans-serif;
             text-anchor: middle;
@@ -97,6 +66,8 @@
             font-weight: bold;
             font-family: 'Segoe UI', sans-serif;
             text-anchor: middle;
+            /* Ligero offset para no tocar la barra si está muy cerca */
+            dy="-5"; 
         }
 
         .point-date {
@@ -112,13 +83,6 @@
             font-family: 'Segoe UI', sans-serif;
             text-anchor: middle;
         }
-
-        @media (max-width: 768px) {
-            .legend {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
     </style>
 </head>
 <body>
@@ -128,9 +92,9 @@
     </header>
 
     <div class="svg-container">
-        <svg viewBox="0 0 1400 450" preserveAspectRatio="xMidYMid meet">
+        <svg viewBox="0 0 1400 400" preserveAspectRatio="xMidYMid meet">
             <!-- Fondo -->
-            <rect x="0" y="0" width="1400" height="450" fill="#ffffff"/>
+            <rect x="0" y="0" width="1400" height="400" fill="#ffffff"/>
             
             <!-- Eje temporal principal -->
             <line x1="80" y1="330" x2="1320" y2="330" stroke="#2c5530" stroke-width="4" stroke-linecap="round"/>
@@ -138,7 +102,6 @@
             
             <!-- ============================================
                  MARCAS DE AÑO (cada 100 años)
-                 Fórmula: x = 80 + ((3000-año)/(3000-1100))*1240
                  ============================================ -->
             <g class="year-marks">
                 <line x1="80" y1="320" x2="80" y2="340" stroke="#666" stroke-width="3"/>
@@ -207,59 +170,47 @@
                  ============================================ -->
             
             <!-- RANGO CAMINO YESERAS (2700-1365 cal aC) -->
+            <!-- Franja Roja -->
             <rect x="276" y="220" width="870" height="45" fill="#c94c4c" opacity="0.25" rx="6"/>
             
             <!-- ETIQUETA ENCIMA de la franja -->
             <text x="711" y="205" class="bar-label-range">Rango C14 Camino de las Yeseras (2700–1365 cal aC)</text>
             
             <!-- EVENTO ARIDEZ 4,0 ka BP (2450-1950 cal aC) -->
-            <!-- MODIFICADO: superpuesto sobre LA LÍNEA PRINCIPAL (y=325 para que cubra parcialmente el eje) -->
+            <!-- Superpuesto sobre LA LÍNEA PRINCIPAL (y=320) -->
             <rect x="438" y="320" width="326" height="20" fill="#8b5a2b" opacity="0.4" rx="3"/>
             
             <!-- ETIQUETA DEL EVENTO ARIDEZ DEBAJO de la barra -->
             <text x="601" y="355" class="bar-label-event-lower">Evento Aridez 4,0 ka BP (2450–1950)</text>
             
-            <!-- Líneas guías verticales del evento de aridez (ahora hacia arriba desde la línea) -->
+            <!-- Líneas guías verticales del evento de aridez -->
             <line x1="438" y1="280" x2="438" y2="320" stroke="#8b5a2b" stroke-width="1.5" stroke-dasharray="3,3"/>
             <line x1="764" y1="280" x2="764" y2="320" stroke="#8b5a2b" stroke-width="1.5" stroke-dasharray="3,3"/>
             
             <!-- ============================================
-                 EVENTOS PUNTUALES (sobre el eje)
+                 EVENTOS PUNTUALES (sobre la franja roja)
                  ============================================ -->
             
-            <!-- Enterramiento 6 mujeres jóvenes (antes A-S5 E02) (2350-2190, medio ~2270) -->
-            <!-- X = 80 + ((3000-2270)/1900)*1240 ≈ 556 -->
-            <circle cx="556" cy="330" r="12" fill="#2c5530" stroke="#fff" stroke-width="2"/>
-            <text x="556" y="390" class="point-label">Enterramiento 6 mujeres jóvenes</text>
-            <text x="556" y="405" class="point-date">2350–2190</text>
-            <line x1="556" y1="342" x2="556" y2="380" stroke="#2c5530" stroke-width="1.5" stroke-dasharray="3,3"/>
+            <!-- Enterramiento 6 mujeres jóvenes (2350-2190, medio ~2270) -->
+            <!-- X = 556 (igual que antes) -->
+            <!-- Y = 245 (dentro de la franja roja que va de 220 a 265 aprox) -->
+            <circle cx="556" cy="245" r="10" fill="#2c5530" stroke="#fff" stroke-width="2"/>
+            <text x="556" y="230" class="point-label">Enterramiento 6 mujeres jóvenes</text>
+            <text x="556" y="265" class="point-date" fill="#fff" font-weight="bold">2350–2190</text>
             
             <!-- Soto-Henares (2125) -->
-            <!-- X = 80 + ((3000-2125)/1900)*1240 ≈ 651 -->
-            <circle cx="651" cy="330" r="12" fill="#2c5530" stroke="#fff" stroke-width="2"/>
-            <text x="651" y="390" class="point-label">Soto-Henares</text>
-            <text x="651" y="405" class="point-date">2125</text>
-            <line x1="651" y1="342" x2="651" y2="380" stroke="#2c5530" stroke-width="1.5" stroke-dasharray="3,3"/>
+            <!-- X = 651 -->
+            <!-- Y = 245 (mismo nivel que el anterior, sobre la franja) -->
+            <circle cx="651" cy="245" r="10" fill="#2c5530" stroke="#fff" stroke-width="2"/>
+            <text x="651" y="230" class="point-label">Soto-Henares</text>
+            <text x="651" y="265" class="point-date" fill="#fff" font-weight="bold">2125</text>
             
             <!-- Título general -->
             <text x="700" y="50" text-anchor="middle" font-size="18" font-weight="bold" fill="#2c5530">Escala Cronológica: 3000 – 1100 a.n.e.</text>
         </svg>
     </div>
 
-    <div class="legend">
-        <div class="legend-item">
-            <div class="legend-color" style="background: rgba(201, 76, 76, 0.25); border: 2px solid #c94c4c;"></div>
-            <span><strong>Rango C14 Yeseras:</strong> 2700–1365 cal aC</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-color" style="background: rgba(139, 90, 43, 0.4); border: 2px solid #8b5a2b;"></div>
-            <span><strong>Evento Aridez 4,0 ka BP:</strong> 2450–1950 cal aC (superpuesto al eje)</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-color" style="background: #2c5530; border: 2px solid #fff;"></div>
-            <span><strong>Eventos puntuales:</strong> Enterramientos</span>
-        </div>
-    </div>
+    <!-- LEYENDA ELIMINADA -->
 
     <footer>
         <p>Datos arqueológicos — Camino de las Yeseras (Madrid) & Soto-Henares</p>
